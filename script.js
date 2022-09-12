@@ -1,4 +1,4 @@
-import { startConfetti, stopConfetti, removeConfetti } from './confetti.js';
+// import { startConfetti, stopConfetti, removeConfetti } from './confetti.js';
 
 const playerScoreEl = document.getElementById('playerScore');
 const playerChoiceEl = document.getElementById('playerChoice');
@@ -37,8 +37,10 @@ function resetSelected() {
   allGameIcons.forEach((icon) => {
     icon.classList.remove('selected');
   });
-  stopConfetti();
-  removeConfetti();
+  import('./confetti.js').then((module) => {
+    module.stopConfetti();
+    module.removeConfetti();
+  });
 }
 
 // Reset Score and playerChoice / computerChoice
@@ -105,10 +107,12 @@ function updateScore(playerChoice) {
   } else {
     const choice = choices[playerChoice];
     if (choice.defeats.indexOf(computerChoice) > -1) {
-      startConfetti();
-      resultText.textContent = 'You won!';
-      playerScoreNumber++;
-      playerScoreEl.textContent = playerScoreNumber;
+      import('./confetti.js').then((module) => {
+        module.startConfetti();
+        resultText.textContent = 'You won!';
+        playerScoreNumber++;
+        playerScoreEl.textContent = playerScoreNumber;
+      });
     } else {
       resultText.textContent = 'You Lost!';
       computerScoreNumber++;
